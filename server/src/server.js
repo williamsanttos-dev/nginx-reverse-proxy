@@ -8,7 +8,7 @@ async function main() {
     const server = http.createServer();
     server.on("request", async (req, res) => {
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ SERVER_HOST, SERVER_PORT }));
+      res.end(JSON.stringify(`Hello from ${SERVER_HOST} `));
     });
     server.listen(SERVER_PORT);
   } catch (err) {
