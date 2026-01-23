@@ -1,0 +1,57 @@
+services:
+  server1:
+    image: server1
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - ${SERVER_PORT_1}:3000
+    environment:
+      SERVER_HOST: ${SERVER_HOST_1}
+      SERVER_PORT: 3000
+    volumes:
+      - ./server:/server
+
+  server2:
+    image: server2
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - ${SERVER_PORT_2}:3000
+    environment:
+      SERVER_HOST: ${SERVER_HOST_2}
+      SERVER_PORT: 3000
+    volumes:
+      - ./server:/server
+
+  server3:
+    image: server3
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - ${SERVER_PORT_3}:3000
+    environment:
+      SERVER_HOST: ${SERVER_HOST_3}
+      SERVER_PORT: 3000
+    volumes:
+      - ./server:/server
+
+  reverse-proxy:
+    image: reverse-proxy
+    build:
+      context: ./reverse-proxy
+      dockerfile: Dockerfile
+    container_name: nginx
+    restart: always
+    env_file: .env
+    ports:
+      - 8080:80
+    depends_on:
+      - server1
+      - server2
+      - server3
